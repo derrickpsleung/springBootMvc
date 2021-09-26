@@ -1,0 +1,41 @@
+{
+	"functionName": "unit_trust",
+	"native_call": "utmip_subscribe",
+	"fund_asset_id": "ETNSI1",
+	"fund_asset": "股票",
+	"category": "股票 – 中國",
+	"fund_code": "AA380",
+	"price": "493.0100",
+	"price_date": "17 Sep 2021",
+	"hk_sfc_auth": "Y",
+	"trailer_fee": 50,
+	"document_json": {
+		"doc": [
+			{
+				"name": "基金概覽",
+				"url": "https://demo02.etwealth.com/wms_docs/fd_sheet/202107/ETNSI18/FACT_SHEET/en/ETNSI6843-031744.pdf"
+			},
+			{
+				"name": "基金章程",
+				"url": "https://demo02.etwealth.com/wms_docs/fd_sheet/202107/ETNSI18/PROSPECTUS/zh_TW/ETNSI6843-151504.pdf"
+			},
+			{
+				"name": "產品資料概要",
+				"url": "https://demo02.etwealth.com/wms_docs/fd_sheet/202107/ETNSI18/KFS/zh_TW/ETNSI6843-151439.pdf"
+			},
+			{
+				"name": "年報",
+				"url": "https://demo02.etwealth.com/wms_docs/fd_sheet/202008/ETNSI18/ANNUAL_REPORT/en/ETNSI6843-231712.pdf"
+			},
+			{
+				"name": "中期報告",
+				"url": "https://demo02.etwealth.com/wms_docs/fd_sheet/202102/ETNSI18/INTERIM/en/ETNSI6843-261540.pdf"
+			},
+			{
+				"name": "產品單張",
+				"url": ""
+			}
+		]
+	},
+	"fund_attr": "NNN"
+}

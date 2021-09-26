@@ -3,8 +3,17 @@
 <head>
 <title>Getting Started: Serving Web Content</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script type="text/javascript">
+	function callNativeFunction() {
+		//javascript:jsbridge.callNativeFunction();
+		android.callNativeFunction('${returnJson}');
+	}
+</script>
+
 </head>
 <body>
 	<p th:text="'Hello, ' + ${name} + '!'" />
+	<button onclick="callNativeFunction()">From etWealth to app (UTMIP)</button>
 </body>
 </html>
