@@ -9,11 +9,59 @@
 		//javascript:jsbridge.callNativeFunction();
 		android.callNativeFunction('${returnJson}');
 	}
+
+	//from https://frankie-apps.com/bea/fund_list.html
+	function bttnPressed(fundCode) {
+		var document_json = '';
+		if (fundCode == "fc001") {
+			document_json = '{"doc":[{"name":"long doc","url":"http://frankie-apps.com/bea/doc_en_fund_one.pdf"},{"name":"short doc","url":"http://frankie-apps.com//bea/doc_en_fund_one_short.pdf"}]}';
+		} else {
+			document_json = '{"doc":[{"name":"long doc","url":"http://frankie-apps.com/bea/doc_en_fund_two.pdf"},{"name":"short doc","url":"http://frankie-apps.com//bea/doc_en_fund_two_short.pdf"}]}';
+		}
+
+		var params = {
+			"functionName" : "unit_trust",
+			"native_call" : "ut_subscribe",
+			"category" : "cat_1",
+			"fund_code" : "fund_abc",
+			"price" : 23.4,
+			"price_date" : "2018/11/24",
+			"hk_sfc_auth" : "Y",
+			"document_json" : document_json
+		};
+
+		console.log('before posting message');
+
+		var paramsString = JSON.stringify(params);
+		try {
+			let webkit = window["webkit"];
+			let android = window["android"];
+
+			if (webkit != undefined && webkit.messageHandlers != undefined
+					&& webkit.messageHandlers.callNativeFunction != undefined) {
+				console.log('before posting message for iOS');
+				webkit.messageHandlers.callNativeFunction
+						.postMessage(paramsString);
+				console.log('after posting message for iOS');
+			} else if (android != undefined) {
+				console.log('before posting message for android');
+				android.callNativeFunction(paramsString);
+				console.log('after posting message for android');
+			}
+
+		} catch (error) {
+			console.log('error: ' + error);
+		}
+
+		console.log('after posting message');
+
+	}
 </script>
 
 </head>
 <body>
 	<p th:text="'Hello, ' + ${name} + '!'" />
-	<button onclick="callNativeFunction()">From etWealth to app (UTMIP)</button>
+	<button onclick="callNativeFunction()">From etWealth to app
+		(UTMIP)</button>
 </body>
 </html>
