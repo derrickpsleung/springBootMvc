@@ -4,46 +4,69 @@
 <title>Getting Started: Serving Web Content</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script type="text/javascript">
-	function callNativeFunction() {
-		//javascript:jsbridge.callNativeFunction();
-		android.callNativeFunction('${returnJson}');
-	}
-
 	//from https://frankie-apps.com/bea/fund_list.html
-	function bttnPressed(fundCode) {
-		var document_json = '';
-		if (fundCode == "fc001") {
-			document_json = '{"doc":[{"name":"long doc","url":"http://frankie-apps.com/bea/doc_en_fund_one.pdf"},{"name":"short doc","url":"http://frankie-apps.com//bea/doc_en_fund_one_short.pdf"}]}';
+
+	function callNativeFunction(native_call) {
+
+		let params = {};
+
+		if (native_call == 'ut_multiple_submitSubscribe'
+				|| native_call == 'ut_multiple_dvChecking') {
+
+			let document_json = '{"doc":[{"name":"long doc","url":"http://frankie-apps.com/bea/doc_en_fund_one.pdf"},{"name":"short doc","url":"http://frankie-apps.com//bea/doc_en_fund_one_short.pdf"}]}';
+
+			let fundOrder = {
+
+				"fund_code" : "fund_abc",
+				"subscriptionAmount" : 50,
+
+				"fund_asset_id" : "ETNSI2",
+				"fund_asset" : "固定收益",
+				"category" : "cat_1",
+				"fund_asset_id" : "ETNSI2",
+				"price" : 23.4,
+				"price_date" : "2018/11/24",
+				"hk_sfc_auth" : "Y",
+				"document_json" : document_json,
+				"fund_attr" : "NNN",
+				"trailer_fee" : 50,
+			};
+			params = {
+				"functionName" : "unit_trust",
+				"native_call" : native_call,
+				"ansCustRiskLevel" : "5",
+				"ansCustInvestmentTenor" : "5",
+				"ansCustInvestmentObjective" : "5"
+			};
+
 		} else {
-			document_json = '{"doc":[{"name":"long doc","url":"http://frankie-apps.com/bea/doc_en_fund_two.pdf"},{"name":"short doc","url":"http://frankie-apps.com//bea/doc_en_fund_two_short.pdf"}]}';
+
+			params = {
+				"functionName" : "unit_trust",
+				"native_call" : native_call
+			};
 		}
 
-		var params = {
-			"functionName" : "unit_trust",
-			"native_call" : "ut_subscribe",
-			"category" : "cat_1",
-			"fund_code" : "fund_abc",
-			"price" : 23.4,
-			"price_date" : "2018/11/24",
-			"hk_sfc_auth" : "Y",
-			"document_json" : document_json
-		};
-
-		console.log('before posting message');
+		console.log('before posting message: ' + native_call);
 
 		var paramsString = JSON.stringify(params);
 		try {
+
 			let webkit = window["webkit"];
 			let android = window["android"];
 
 			if (webkit != undefined && webkit.messageHandlers != undefined
 					&& webkit.messageHandlers.callNativeFunction != undefined) {
+
 				console.log('before posting message for iOS');
 				webkit.messageHandlers.callNativeFunction
 						.postMessage(paramsString);
 				console.log('after posting message for iOS');
+
 			} else if (android != undefined) {
+
 				console.log('before posting message for android');
 				android.callNativeFunction(paramsString);
 				console.log('after posting message for android');
@@ -53,7 +76,30 @@
 			console.log('error: ' + error);
 		}
 
-		console.log('after posting message');
+		console.log('after posting message: ' + native_call);
+
+	}
+
+	function addFundRow() {
+
+		let parentDiv = $('#fundListDiv');
+
+		let numOfEntry = 0;
+		parentDiv.find('.flexCls').each(function() {
+			numOfEntry = numOfEntry + 1;
+		});
+
+		let inputTmplHtml = $('#inputTmpl').html();
+
+		inputTmplHtml = inputTmplHtml.replace("${idx}", (numOfEntry + 1));
+
+		parentDiv.append(inputTmplHtml);
+
+	}
+
+	function delFundRow(obj) {
+
+		$(obj).parent().parent().remove();
 
 	}
 </script>
@@ -61,7 +107,77 @@
 </head>
 <body>
 	<p th:text="'Hello, ' + ${name} + '!'" />
-	<button onclick="callNativeFunction()">From etWealth to app
-		(UTMIP)</button>
+	<table style="width: 100%">
+		<tr>
+			<td>ut_multiple_submitSubscribe
+				<button onclick="addFundRow()">Add</button>
+				<div id="fundListDiv"></div>
+			</td>
+			<td><button
+					onclick="callNativeFunction('ut_multiple_submitSubscribe')">Click</button></td>
+		</tr>
+		<tr>
+			<td>ut_multiple_viewRaqDetails</td>
+			<td><button
+					onclick="callNativeFunction('ut_multiple_viewRaqDetails')">Click</button></td>
+		</tr>
+		<tr>
+			<td>ut_multiple_updateRaq</td>
+			<td><button
+					onclick="callNativeFunction('ut_multiple_updateRaq')">Click</button></td>
+		</tr>
+		<tr>
+			<td>ut_multiple_assmtMthdgyOfRiskTolLv</td>
+			<td><button
+					onclick="callNativeFunction('ut_multiple_assmtMthdgyOfRiskTolLv')">Click</button></td>
+		</tr>
+		<tr>
+			<td>ut_multiple_vulCustCatDefin</td>
+			<td><button
+					onclick="callNativeFunction('ut_multiple_vulCustCatDefin')">Click</button></td>
+		</tr>
+		<tr>
+			<td>ut_multiple_riskTolLvDefin</td>
+			<td><button
+					onclick="callNativeFunction('ut_multiple_riskTolLvDefin')">Click</button></td>
+		</tr>
+		<tr>
+			<td>ut_multiple_dvChecking</td>
+			<td><button
+					onclick="callNativeFunction('ut_multiple_dvChecking')">Click</button></td>
+		</tr>
+		<tr>
+			<td>ut_multiple_backToTnc</td>
+			<td><button
+					onclick="callNativeFunction('ut_multiple_backToTnc')">Click</button></td>
+		</tr>
+		<tr>
+			<td>ut_multiple_backToAccountOverview</td>
+			<td><button
+					onclick="callNativeFunction('ut_multiple_backToAccountOverview')">Click</button></td>
+		</tr>
+	</table>
+
+	<div id="inputTmpl" style="display: none">
+		<div class="flexCls" idx="${idx}">
+			<div>
+				FundCode: <input name="fundCode" type="text" />
+			</div>
+			<div>
+				Amount: <input name="amount" type="text" />
+			</div>
+			<div>
+				<button onclick="delFundRow(this);">Delete</button>
+			</div>
+		</div>
+	</div>
+
 </body>
+
+<style>
+.flexCls div {
+	display: inline-flex;
+}
+</style>
+
 </html>
