@@ -18,10 +18,6 @@
 			let document_json = '{"doc":[{"name":"long doc","url":"http://frankie-apps.com/bea/doc_en_fund_one.pdf"},{"name":"short doc","url":"http://frankie-apps.com//bea/doc_en_fund_one_short.pdf"}]}';
 
 			let fundOrder = {
-
-				"fund_code" : "fund_abc",
-				"subscriptionAmount" : 50,
-
 				"fund_asset_id" : "ETNSI2",
 				"fund_asset" : "固定收益",
 				"category" : "cat_1",
@@ -38,8 +34,16 @@
 				"native_call" : native_call,
 				"ansCustRiskLevel" : "5",
 				"ansCustInvestmentTenor" : "5",
-				"ansCustInvestmentObjective" : "5"
+				"ansCustInvestmentObjective" : "5",
+				"fundInfoList": []
 			};
+			
+			let fundListDiv = $('#fundListDiv');
+			fundListDiv.find('.flexCls').each(function() {
+				fundOrder["fund_code"] = $(this).find('input[name="fundCode"]').val();
+				fundOrder["subscriptionAmount"] = Number($(this).find('input[name="amount"]').val());
+				params.fundInfoList.push(fundOrder);
+			});
 
 		} else {
 
@@ -49,7 +53,7 @@
 			};
 		}
 
-		console.log('before posting message: ' + native_call);
+		console.log('before posting message: ' + native_call, params);
 
 		var paramsString = JSON.stringify(params);
 		try {
@@ -114,47 +118,47 @@
 				<div id="fundListDiv"></div>
 			</td>
 			<td><button
-					onclick="callNativeFunction('ut_multiple_submitSubscribe')">Click</button></td>
+					onclick="callNativeFunction('ut_multiple_submitSubscribe')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_viewRaqDetails</td>
 			<td><button
-					onclick="callNativeFunction('ut_multiple_viewRaqDetails')">Click</button></td>
+					onclick="callNativeFunction('ut_multiple_viewRaqDetails')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_updateRaq</td>
 			<td><button
-					onclick="callNativeFunction('ut_multiple_updateRaq')">Click</button></td>
+					onclick="callNativeFunction('ut_multiple_updateRaq')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_assmtMthdgyOfRiskTolLv</td>
 			<td><button
-					onclick="callNativeFunction('ut_multiple_assmtMthdgyOfRiskTolLv')">Click</button></td>
+					onclick="callNativeFunction('ut_multiple_assmtMthdgyOfRiskTolLv')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_vulCustCatDefin</td>
 			<td><button
-					onclick="callNativeFunction('ut_multiple_vulCustCatDefin')">Click</button></td>
+					onclick="callNativeFunction('ut_multiple_vulCustCatDefin')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_riskTolLvDefin</td>
 			<td><button
-					onclick="callNativeFunction('ut_multiple_riskTolLvDefin')">Click</button></td>
+					onclick="callNativeFunction('ut_multiple_riskTolLvDefin')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_dvChecking</td>
 			<td><button
-					onclick="callNativeFunction('ut_multiple_dvChecking')">Click</button></td>
+					onclick="callNativeFunction('ut_multiple_dvChecking')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_backToTnc</td>
 			<td><button
-					onclick="callNativeFunction('ut_multiple_backToTnc')">Click</button></td>
+					onclick="callNativeFunction('ut_multiple_backToTnc')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_backToAccountOverview</td>
 			<td><button
-					onclick="callNativeFunction('ut_multiple_backToAccountOverview')">Click</button></td>
+					onclick="callNativeFunction('ut_multiple_backToAccountOverview')">Submit</button></td>
 		</tr>
 	</table>
 
