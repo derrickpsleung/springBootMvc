@@ -4,6 +4,39 @@
 <title>Getting Started: Serving Web Content</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
+<style>
+td:nth-child(odd) {
+	width: 90%;
+}
+
+td:nth-child(even) {
+	width: 10%;
+}
+
+td {
+	font-size: 40px;
+}
+
+td>button {
+	background-color: #4CAF50;
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 40px;
+	margin: 4px 2px;
+	cursor: pointer;
+}
+
+.flexCls div {
+	display: inline-flex;
+	font-size: 35px !important;
+}
+
+</style>
+
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script type="text/javascript">
 	//from https://frankie-apps.com/bea/fund_list.html
@@ -15,13 +48,22 @@
 		if (native_call == 'ut_multiple_submitSubscribe'
 				|| native_call == 'ut_multiple_dvChecking') {
 
-			let document_json = '{"doc":[{"name":"long doc","url":"http://frankie-apps.com/bea/doc_en_fund_one.pdf"},{"name":"short doc","url":"http://frankie-apps.com//bea/doc_en_fund_one_short.pdf"}]}';
+			let document_json = {
+				"doc" : [
+						{
+							"name" : "long doc",
+							"url" : "http://frankie-apps.com/bea/doc_en_fund_one.pdf"
+						},
+						{
+							"name" : "short doc",
+							"url" : "http://frankie-apps.com//bea/doc_en_fund_one_short.pdf"
+						} ]
+			};
 
 			let fundOrder = {
 				"fund_asset_id" : "ETNSI2",
 				"fund_asset" : "固定收益",
 				"category" : "cat_1",
-				"fund_asset_id" : "ETNSI2",
 				"price" : 23.4,
 				"price_date" : "2018/11/24",
 				"hk_sfc_auth" : "Y",
@@ -35,15 +77,18 @@
 				"ansCustRiskLevel" : "5",
 				"ansCustInvestmentTenor" : "5",
 				"ansCustInvestmentObjective" : "5",
-				"fundInfoList": []
+				"fundInfoList" : []
 			};
-			
+
 			let fundListDiv = $('#fundListDiv');
-			fundListDiv.find('.flexCls').each(function() {
-				fundOrder["fund_code"] = $(this).find('input[name="fundCode"]').val();
-				fundOrder["subscriptionAmount"] = Number($(this).find('input[name="amount"]').val());
-				params.fundInfoList.push(fundOrder);
-			});
+			fundListDiv.find('.flexCls').each(
+					function() {
+						fundOrder["fund_code"] = $(this).find(
+								'input[name="fundCode"]').val();
+						fundOrder["subscriptionAmount"] = Number($(this).find(
+								'input[name="amount"]').val());
+						params.fundInfoList.push(fundOrder);
+					});
 
 		} else {
 
@@ -53,7 +98,8 @@
 			};
 		}
 
-		console.log('before posting message: ' + native_call, params);
+		console.log('before posting message: ' + native_call + ', json: '
+				+ JSON.stringify(params), params);
 
 		var paramsString = JSON.stringify(params);
 		try {
@@ -117,48 +163,39 @@
 				<button onclick="addFundRow()">Add</button>
 				<div id="fundListDiv"></div>
 			</td>
-			<td><button
-					onclick="callNativeFunction('ut_multiple_submitSubscribe')">Submit</button></td>
+			<td><button onclick="callNativeFunction('ut_multiple_submitSubscribe')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_viewRaqDetails</td>
-			<td><button
-					onclick="callNativeFunction('ut_multiple_viewRaqDetails')">Submit</button></td>
+			<td><button onclick="callNativeFunction('ut_multiple_viewRaqDetails')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_updateRaq</td>
-			<td><button
-					onclick="callNativeFunction('ut_multiple_updateRaq')">Submit</button></td>
+			<td><button onclick="callNativeFunction('ut_multiple_updateRaq')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_assmtMthdgyOfRiskTolLv</td>
-			<td><button
-					onclick="callNativeFunction('ut_multiple_assmtMthdgyOfRiskTolLv')">Submit</button></td>
+			<td><button onclick="callNativeFunction('ut_multiple_assmtMthdgyOfRiskTolLv')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_vulCustCatDefin</td>
-			<td><button
-					onclick="callNativeFunction('ut_multiple_vulCustCatDefin')">Submit</button></td>
+			<td><button onclick="callNativeFunction('ut_multiple_vulCustCatDefin')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_riskTolLvDefin</td>
-			<td><button
-					onclick="callNativeFunction('ut_multiple_riskTolLvDefin')">Submit</button></td>
+			<td><button onclick="callNativeFunction('ut_multiple_riskTolLvDefin')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_dvChecking</td>
-			<td><button
-					onclick="callNativeFunction('ut_multiple_dvChecking')">Submit</button></td>
+			<td><button onclick="callNativeFunction('ut_multiple_dvChecking')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_backToTnc</td>
-			<td><button
-					onclick="callNativeFunction('ut_multiple_backToTnc')">Submit</button></td>
+			<td><button onclick="callNativeFunction('ut_multiple_backToTnc')">Submit</button></td>
 		</tr>
 		<tr>
 			<td>ut_multiple_backToAccountOverview</td>
-			<td><button
-					onclick="callNativeFunction('ut_multiple_backToAccountOverview')">Submit</button></td>
+			<td><button onclick="callNativeFunction('ut_multiple_backToAccountOverview')">Submit</button></td>
 		</tr>
 	</table>
 
@@ -178,10 +215,5 @@
 
 </body>
 
-<style>
-.flexCls div {
-	display: inline-flex;
-}
-</style>
 
 </html>
